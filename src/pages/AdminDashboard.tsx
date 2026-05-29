@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
 import { QRCode } from 'react-qr-code'; 
-import { Download, Layers, ShieldCheck, RefreshCw, ArrowLeft, LogOut, Trash2 } from 'lucide-react';
+import { Download, Layers, ShieldCheck, RefreshCw, ArrowLeft, LogOut, Trash2, AlertTriangle, X } from 'lucide-react';
 import { toPng } from 'html-to-image';
 
 export default function AdminDashboard() {
@@ -14,6 +14,12 @@ export default function AdminDashboard() {
   const { logout } = useAuth();
   const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Custom Deletion Modal States
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [targetDeleteId, setTargetDeleteId] = useState('');
+  const [targetDeleteName, setTargetDeleteName] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
   
   // Refs for tracking node elements for download generation
   const frontRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -43,24 +49,41 @@ export default function AdminDashboard() {
     fetchRequests();
   };
 
-  // NEW: Delete handler function
-  const handleDeleteRequest = async (id: string, studentName: string) => {
-    const confirmDelete = window.confirm(`Are you sure you want to permanently delete the card request for ${studentName || 'this student'}?`);
-    if (!confirmDelete) return;
+  const triggerDeleteModal = (id: string, studentName: string) => {
+    setTargetDeleteId(id);
+    setTargetDeleteName(studentName);
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    if (isDeleting) return;
+    setDeleteModalOpen(false);
+    setTargetDeleteId('');
+    setTargetDeleteName('');
+  };
+
+  const confirmDeleteRequest = async () => {
+    if (!targetDeleteId) return;
+    setIsDeleting(true);
+
+    // Give the animation an extra brief moment to cycle visibly
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {
       const { error } = await supabase
         .from('card_requests')
         .delete()
-        .eq('id', id);
+        .eq('id', targetDeleteId);
 
       if (error) throw error;
 
-      // Optimistically remove from state collection UI layer
-      setRequests(prev => prev.filter(req => req.id !== id));
+      setRequests(prev => prev.filter(req => req.id !== targetDeleteId));
+      closeDeleteModal();
     } catch (err: any) {
       console.error('Failed to clear target request vector:', err);
       alert(`Error deleting record: ${err.message}`);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -108,8 +131,22 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-neutral-100 p-6 font-sans">
+    <div className="min-h-screen bg-neutral-900 text-neutral-100 p-6 font-sans relative">
       
+      {/* Global CSS Style tag injection for realistic lid rotation */}
+      <style>{`
+        @keyframes trash-lid-chomp {
+          0% { transform: translateY(0) rotate(0deg); }
+          25% { transform: translateY(-8px) rotate(-20deg); }
+          50% { transform: translateY(0) rotate(0deg); }
+          75% { transform: translateY(-5px) rotate(-10deg); }
+          100% { transform: translateY(0) rotate(0deg); }
+        }
+        .animate-trash-lid {
+          animation: trash-lid-chomp 0.5s ease-in-out infinite;
+        }
+      `}</style>
+
       {/* Top Admin Controls Header Panel */}
       <div className="max-w-7xl w-full mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-neutral-800 pb-4 mb-6 gap-4">
         <div className="flex items-center gap-3">
@@ -175,9 +212,8 @@ export default function AdminDashboard() {
                     <Download size={14} /> Export Back Aspect
                   </button>
                   
-                  {/* NEW: Integrated Delete Action Trigger Button */}
                   <button 
-                    onClick={() => handleDeleteRequest(req.id, req.full_name)}
+                    onClick={() => triggerDeleteModal(req.id, req.full_name)}
                     className="p-2 bg-red-950/40 border border-red-900/60 hover:bg-red-900 text-red-400 rounded-lg transition cursor-pointer"
                     title="Delete Request File"
                   >
@@ -308,6 +344,79 @@ export default function AdminDashboard() {
 
             </div>
           ))}
+        </div>
+      )}
+
+      {/* CUSTOM ANIMATED MODAL BACKDROP CONTAINER */}
+      {deleteModalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300">
+          
+          <div className="bg-neutral-950 border-2 border-red-900/60 w-full max-w-md rounded-2xl p-6 shadow-2xl relative overflow-hidden font-sans transform scale-100 transition-transform duration-300">
+            
+            <button 
+              disabled={isDeleting}
+              onClick={closeDeleteModal}
+              className="absolute top-4 right-4 p-1 text-neutral-500 hover:text-white rounded-lg transition disabled:opacity-30 cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+
+            {/* ACTION-TRIGGERED ANIMATED TRASH BIN NODES */}
+            <div className="flex flex-col items-center justify-center mt-3 mb-4">
+              <div className="w-16 h-16 bg-red-950/40 border border-red-900/40 rounded-full flex flex-col items-center justify-center relative overflow-visible shadow-inner">
+                
+                {/* Trash Lid Component: Triggers 'animate-trash-lid' styling dynamic when state shifts to true */}
+                <svg 
+                  className={`w-7 h-2 text-red-500 fill-current origin-bottom-right mb-[2px] transition-transform duration-300 ${isDeleting ? 'animate-trash-lid' : 'group-hover:rotate-6'}`} 
+                  viewBox="0 0 28 8"
+                >
+                  <path d="M2 6h24v2H2zM9 2h10v2H9z" />
+                </svg>
+                
+                {/* Trash Base Container */}
+                <svg 
+                  className="w-6 h-7 text-red-500 fill-current" 
+                  viewBox="0 0 24 28"
+                >
+                  <path d="M4 4h16l-2 22H6L4 4zm4 4v14h2V8H8zm4 0v14h2V8h-2zm4 0v14h2V8h-2z" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="text-center space-y-2">
+              <h4 className="text-base font-black text-white tracking-wider uppercase flex items-center justify-center gap-2">
+                <AlertTriangle size={16} className="text-red-500" /> Confirm Data Removal
+              </h4>
+              <p className="text-xs text-neutral-400 leading-relaxed max-w-xs mx-auto">
+                You are performing an un-doable action. This will wipe out <span className="text-red-400 font-bold uppercase">{targetDeleteName || 'this student'}</span>'s card configuration layout metrics from the queue database.
+              </p>
+            </div>
+
+            {/* Confirmation Controls Tray */}
+            <div className="grid grid-cols-2 gap-3 mt-6 border-t border-neutral-900 pt-4">
+              <button
+                disabled={isDeleting}
+                onClick={closeDeleteModal}
+                className="w-full py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white text-xs font-bold rounded-lg transition cursor-pointer uppercase tracking-wider disabled:opacity-40"
+              >
+                Abort Action
+              </button>
+              <button
+                disabled={isDeleting}
+                onClick={confirmDeleteRequest}
+                className="w-full py-2.5 bg-red-600 hover:bg-red-500 text-white text-xs font-black rounded-lg transition shadow-md shadow-red-950/50 cursor-pointer uppercase tracking-wider flex items-center justify-center gap-1"
+              >
+                {isDeleting ? (
+                  <>
+                    <RefreshCw size={12} className="animate-spin" /> Shredding...
+                  </>
+                ) : (
+                  'Purge Record'
+                )}
+              </button>
+            </div>
+
+          </div>
         </div>
       )}
 
