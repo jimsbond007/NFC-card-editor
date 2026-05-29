@@ -86,6 +86,9 @@ export default function StudentDashboard() {
         account_link: accountLink,
         phone_number: phone.replace(/^09/, ''),
         card_bg_color: bgColor,
+        // Optional: If your schema supports text and template accents saving, append them here:
+        // card_template_color: templateColor,
+        // card_text_color: textColor
       });
 
       if (cardError) throw cardError;
@@ -237,21 +240,13 @@ export default function StudentDashboard() {
                 className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl border-[4px] p-[4cqw] flex flex-col justify-between [backface-visibility:hidden] overflow-hidden"
                 style={{ backgroundColor: bgColor, borderColor: templateColor }}
               >
-                {/* MECHA TECHY BACKGROUND SHAPES AND CIRCUIT LINES (FRONT) */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-                  {/* Cyber Dot Grid Array */}
                   <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `radial-gradient(${templateColor} 1px, transparent 1px)`, backgroundSize: '16px 16px' }} />
-                  
-                  {/* Random Hardware Crosshairs & Corner Blocks */}
                   <div className="absolute top-[1.5cqw] right-[1.5cqw] w-[22cqw] h-[22cqw] border-t-[3px] border-r-[3px]" style={{ borderColor: templateColor }} />
                   <div className="absolute bottom-[1.5cqw] left-[1.5cqw] w-[18cqw] h-[18cqw] border-b-[3px] border-l-[3px]" style={{ borderColor: templateColor }} />
-                  
-                  {/* Tech Line Metrics */}
                   <div className="absolute top-1/2 left-[28%] w-[45%] h-[2px] border-b-[2px] border-dashed animate-pulse" style={{ borderColor: templateColor }} />
                   <div className="absolute top-[28%] right-[4cqw] text-[3cqw] font-black leading-none" style={{ color: templateColor }}>+</div>
                   <div className="absolute bottom-[28%] left-[28%] text-[3cqw] font-black leading-none" style={{ color: templateColor }}>+</div>
-                  
-                  {/* Tech Decal Angle Blocks */}
                   <div className="absolute top-[15%] left-[-2cqw] w-[5cqw] h-[8cqw] border-r-[2px] border-t-[2px] rotate-12 opacity-40" style={{ borderColor: templateColor }} />
                   <div className="absolute bottom-[10%] right-[-1cqw] w-[8cqw] h-[3cqw] border-l-[2px] border-b-[2px] -rotate-12 opacity-30" style={{ borderColor: templateColor }} />
                 </div>
@@ -271,8 +266,6 @@ export default function StudentDashboard() {
 
                 {/* CARD BODY GRID INFORMATION */}
                 <div className="w-full grid grid-cols-12 gap-[3cqw] items-stretch my-auto overflow-visible z-10">
-                  
-                  {/* LEFT PANE COLUMN: QR FRAME */}
                   <div className="col-span-4 flex flex-col items-center justify-center gap-[2cqw] border-r-[3px] pr-[2.5cqw]" style={{ borderColor: templateColor }}>
                     <div className="w-full aspect-square bg-white p-[5%] rounded-xl border-[3px] shadow-2xl flex items-center justify-center" style={{ borderColor: templateColor }}>
                       <QRCode 
@@ -282,7 +275,6 @@ export default function StudentDashboard() {
                         bgColor="#FFFFFF"
                       />
                     </div>
-
                     <div className="w-full flex items-center justify-center gap-[1.5cqw] bg-neutral-900 p-[1.5cqw] rounded-lg border-[2px]" style={{ borderColor: templateColor }}>
                       <div className="w-[4cqw] h-[4cqw] rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center font-black text-[2.2cqw] text-neutral-900 shadow-md">
                         T
@@ -294,19 +286,12 @@ export default function StudentDashboard() {
                     </div>
                   </div>
 
-                  {/* RIGHT PANE COLUMN: STUDENT PARTICULARS */}
                   <div className="col-span-8 flex flex-col justify-between space-y-[2cqw] pl-[1cqw] pr-[1cqw] overflow-visible">
                     <div className="w-full overflow-visible">
                       <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: textColor }}>
                         Full Name // Owner
                       </span>
-                      <span 
-                        className="block font-black uppercase tracking-wide whitespace-nowrap overflow-visible leading-none" 
-                        style={{ 
-                          color: templateColor, 
-                          fontSize: getDynamicFontSize(fullName || 'JUAN DELA CRUZ', 4.2, 14) 
-                        }}
-                      >
+                      <span className="block font-black uppercase tracking-wide whitespace-nowrap overflow-visible leading-none" style={{ color: templateColor, fontSize: getDynamicFontSize(fullName || 'JUAN DELA CRUZ', 4.2, 14) }}>
                         {fullName || 'JUAN DELA CRUZ'}
                       </span>
                     </div>
@@ -315,13 +300,7 @@ export default function StudentDashboard() {
                       <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: textColor }}>
                         Course / Assignment Location
                       </span>
-                      <span 
-                        className="block font-black uppercase tracking-tight whitespace-nowrap overflow-visible leading-none" 
-                        style={{ 
-                          color: textColor, 
-                          fontSize: getDynamicFontSize(course || 'BS COURSE/PROGRAM', 3.2, 16) 
-                        }}
-                      >
+                      <span className="block font-black uppercase tracking-tight whitespace-nowrap overflow-visible leading-none" style={{ color: textColor, fontSize: getDynamicFontSize(course || 'BS COURSE/PROGRAM', 3.2, 16) }}>
                         {course || 'BS COURSE/PROGRAM'}
                       </span>
                     </div>
@@ -329,50 +308,26 @@ export default function StudentDashboard() {
                     <div className="grid grid-cols-2 gap-[2cqw] pt-[1.5cqw] border-t-[2px] border-dashed overflow-visible" style={{ borderColor: templateColor }}>
                       <div className="overflow-visible space-y-[1.5cqw]">
                         <div className="overflow-visible">
-                          <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>
-                            Student ID
-                          </span>
-                          <span 
-                            className="block font-mono font-black tracking-widest whitespace-nowrap overflow-visible leading-none" 
-                            style={{ 
-                              color: templateColor, 
-                              fontSize: getDynamicFontSize(studentId || '0000-00-000000', 2.8, 14) 
-                            }}
-                          >
+                          <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>Student ID</span>
+                          <span className="block font-mono font-black tracking-widest whitespace-nowrap overflow-visible leading-none" style={{ color: templateColor, fontSize: getDynamicFontSize(studentId || '0000-00-000000', 2.8, 14) }}>
                             {studentId || '0000-00-000000'}
                           </span>
                         </div>
-
                         <div className="overflow-visible">
-                          <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>
-                            Contact Number
-                          </span>
-                          <span 
-                            className="block font-mono font-black tracking-widest whitespace-nowrap overflow-visible leading-none text-[2.4cqw]" 
-                            style={{ color: templateColor }}
-                          >
+                          <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>Contact Number</span>
+                          <span className="block font-mono font-black tracking-widest whitespace-nowrap overflow-visible leading-none text-[2.4cqw]" style={{ color: templateColor }}>
                             +63{formatPhilippinePhone(phone) || '948623020'}
                           </span>
                         </div>
                       </div>
-
                       <div className="overflow-visible flex flex-col justify-start">
-                        <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>
-                          USERNAME
-                        </span>
-                        <span 
-                          className="block font-black tracking-wider uppercase whitespace-nowrap overflow-visible leading-none" 
-                          style={{ 
-                            color: textColor, 
-                            fontSize: getDynamicFontSize(username || 'USERNAME', 2.8, 10) 
-                          }}
-                        >
+                        <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>USERNAME</span>
+                        <span className="block font-black tracking-wider uppercase whitespace-nowrap overflow-visible leading-none" style={{ color: textColor, fontSize: getDynamicFontSize(username || 'USERNAME', 2.8, 10) }}>
                           @{username || 'USERNAME'}
                         </span>
                       </div>
                     </div>
                   </div>
-
                 </div>
 
                 {/* FOOTER SYSTEM LINE */}
@@ -391,27 +346,20 @@ export default function StudentDashboard() {
                 className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl border-[4px] p-[5cqw] flex flex-col items-center justify-center text-center [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden"
                 style={{ backgroundColor: bgColor, borderColor: templateColor }}
               >
-                {/* MECHA TECHY DESIGN SHAPES AND GRIDS (BACK) */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-                  {/* Digital Tech Matrix Blocks */}
                   <div className="absolute inset-0 pointer-events-none grid grid-cols-8 gap-3 p-6 opacity-[0.15]">
                     {Array.from({ length: 32 }).map((_, i) => (
                       <div key={i} className="border-[2px] aspect-square rounded-xs" style={{ borderColor: templateColor }} />
                     ))}
                   </div>
-
-                  {/* Concentric Structural Circuits */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[46cqw] h-[46cqw] rounded-full border-[3px] border-dashed animate-spin" style={{ borderColor: templateColor, animationDuration: '25s' }} />
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36cqw] h-[36cqw] rounded-full border-[4px] border-double" style={{ borderColor: templateColor }} />
-
-                  {/* Mechanical Angle Brackets */}
                   <div className="absolute top-[2cqw] left-[2cqw] w-[5cqw] h-[5cqw] border-t-[4px] border-l-[4px]" style={{ borderColor: templateColor }} />
                   <div className="absolute top-[2cqw] right-[2cqw] w-[5cqw] h-[5cqw] border-t-[4px] border-r-[4px]" style={{ borderColor: templateColor }} />
                   <div className="absolute bottom-[2cqw] left-[2cqw] w-[5cqw] h-[5cqw] border-b-[4px] border-l-[4px]" style={{ borderColor: templateColor }} />
                   <div className="absolute bottom-[2cqw] right-[2cqw] w-[5cqw] h-[5cqw] border-b-[4px] border-r-[4px]" style={{ borderColor: templateColor }} />
                 </div>
 
-                {/* Brand Card Shield Frame */}
                 <div className="z-10 space-y-4 bg-neutral-950/90 p-[4cqw] rounded-2xl border-[3px]" style={{ borderColor: templateColor }}>
                   <div className="w-[14cqw] h-[14cqw] mx-auto rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-400 flex items-center justify-center font-black text-[7cqw] text-neutral-900 border-[3px] shadow-2xl">
                     T
