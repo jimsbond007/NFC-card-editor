@@ -5,8 +5,8 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
-import { QRCode } from 'react-qr-code'; // Fixed to match your Student Dashboard import style
-import { Download, Layers, ShieldCheck, RefreshCw, ArrowLeft, LogOut } from 'lucide-react';
+import { QRCode } from 'react-qr-code'; 
+import { Download, Layers, ShieldCheck, RefreshCw, ArrowLeft, LogOut, Trash2 } from 'lucide-react';
 import { toPng } from 'html-to-image';
 
 export default function AdminDashboard() {
@@ -43,6 +43,27 @@ export default function AdminDashboard() {
     fetchRequests();
   };
 
+  // NEW: Delete handler function
+  const handleDeleteRequest = async (id: string, studentName: string) => {
+    const confirmDelete = window.confirm(`Are you sure you want to permanently delete the card request for ${studentName || 'this student'}?`);
+    if (!confirmDelete) return;
+
+    try {
+      const { error } = await supabase
+        .from('card_requests')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Optimistically remove from state collection UI layer
+      setRequests(prev => prev.filter(req => req.id !== id));
+    } catch (err: any) {
+      console.error('Failed to clear target request vector:', err);
+      alert(`Error deleting record: ${err.message}`);
+    }
+  };
+
   const downloadFace = async (id: string, face: 'front' | 'back', name: string) => {
     const targetNode = face === 'front' ? frontRefs.current[id] : backRefs.current[id];
     if (!targetNode) return;
@@ -67,7 +88,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Synchronized dynamic typography equation from your student view
   const getDynamicFontSize = (text: string, baseCqw: number, threshold: number) => {
     if (!text || text.length <= threshold) return `${baseCqw}cqw`;
     const reductionFactor = threshold / text.length;
@@ -121,7 +141,6 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* --- ADDED SAFETY SNIPPET STARTS HERE --- */}
       {loading ? (
         <div className="flex flex-col items-center justify-center my-24 gap-3 font-mono">
           <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
@@ -155,6 +174,15 @@ export default function AdminDashboard() {
                   >
                     <Download size={14} /> Export Back Aspect
                   </button>
+                  
+                  {/* NEW: Integrated Delete Action Trigger Button */}
+                  <button 
+                    onClick={() => handleDeleteRequest(req.id, req.full_name)}
+                    className="p-2 bg-red-950/40 border border-red-900/60 hover:bg-red-900 text-red-400 rounded-lg transition cursor-pointer"
+                    title="Delete Request File"
+                  >
+                    <Trash2 size={15} />
+                  </button>
                 </div>
               </div>
 
@@ -169,7 +197,6 @@ export default function AdminDashboard() {
                     className="w-full aspect-[1.586/1] rounded-2xl border-[4px] p-[4cqw] flex flex-col justify-between overflow-hidden relative @container select-none shadow-2xl"
                     style={{ fontFamily: "'Orbitron', sans-serif", backgroundColor: req.card_bg_color || '#0d0e12', borderColor: req.card_template_color || '#38bdf8' }}
                   >
-                    {/* Synchronized Circuit Background Grid & Vector Accents */}
                     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
                       <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `radial-gradient(${req.card_template_color || '#38bdf8'} 1px, transparent 1px)`, backgroundSize: '16px 16px' }} />
                       <div className="absolute top-[1.5cqw] right-[1.5cqw] w-[22cqw] h-[22cqw] border-t-[3px] border-r-[3px]" style={{ borderColor: req.card_template_color || '#38bdf8' }} />
@@ -177,7 +204,6 @@ export default function AdminDashboard() {
                       <div className="absolute top-1/2 left-[28%] w-[45%] h-[2px] border-b-[2px] border-dashed animate-pulse" style={{ borderColor: req.card_template_color || '#38bdf8' }} />
                     </div>
 
-                    {/* Top Content Title Ribbon Header */}
                     <div className="w-full flex justify-between items-center border-b-[3px] pb-[1.5cqw] z-10" style={{ borderColor: req.card_template_color || '#38bdf8' }}>
                       <div className="flex items-center gap-[2cqw]">
                         <div className="text-[2cqw] font-black uppercase tracking-[0.25em]" style={{ color: req.card_text_color || '#ffffff' }}>IDENTIFICATION BADGE</div>
@@ -188,10 +214,8 @@ export default function AdminDashboard() {
                       <div className="text-[1.2cqw] font-mono font-black tracking-widest" style={{ color: req.card_text_color || '#ffffff' }}>HEX_ID // 6F9A24EE</div>
                     </div>
 
-                    {/* Core Infographic Segment Array Split */}
                     <div className="w-full grid grid-cols-12 gap-[3cqw] items-stretch my-auto overflow-visible z-10">
                       
-                      {/* Left Block: QR Graphics and Emblem Footer Frame */}
                       <div className="col-span-4 flex flex-col items-center justify-center gap-[2cqw] border-r-[3px] pr-[2.5cqw]" style={{ borderColor: req.card_template_color || '#38bdf8' }}>
                         <div className="w-full aspect-square bg-white p-[5%] rounded-xl border-[3px] shadow-2xl flex items-center justify-center" style={{ borderColor: req.card_template_color || '#38bdf8' }}>
                           <QRCode value={String(req.account_link || 'https://bicol-u.edu.ph').trim()} style={{ height: "100%", maxWidth: "100%", width: "100%" }} fgColor="#0d0e12" bgColor="#FFFFFF" />
@@ -206,7 +230,6 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                      {/* Right Block: Dynamic Identity Typography Trace Lines */}
                       <div className="col-span-8 flex flex-col justify-between space-y-[2cqw] pl-[1cqw] pr-[1cqw] overflow-visible">
                         <div className="w-full overflow-visible">
                           <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: req.card_text_color || '#ffffff' }}>Full Name // Owner</span>
@@ -248,7 +271,6 @@ export default function AdminDashboard() {
 
                     </div>
 
-                    {/* Bottom Ground Frame Border Info Panel */}
                     <div className="w-full flex justify-between items-center border-t-[3px] pt-[1.5cqw] mt-[1cqw] z-10" style={{ borderColor: req.card_template_color || '#38bdf8' }}>
                       <div className="text-[1.3cqw] tracking-[0.2em] font-black uppercase font-mono" style={{ color: req.card_text_color || '#ffffff' }}>Issued by: TECHSYSTEMS ASSOCIATION</div>
                       <div className="text-[1.2cqw] tracking-[0.25em] font-black uppercase font-mono" style={{ color: req.card_template_color || '#38bdf8' }}>HARDWARE NODE STATUS // ACTIVE</div>
@@ -288,7 +310,6 @@ export default function AdminDashboard() {
           ))}
         </div>
       )}
-      {/* --- ADDED SAFETY SNIPPET ENDS HERE --- */}
 
     </div>
   );
