@@ -4,8 +4,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { User, LogOut, Save, RefreshCw, Shield } from 'lucide-react';
-import { QRCode } from 'react-qr-code'; 
+import { QRCode } from 'react-qr-code';
 import { HexColorPicker } from 'react-colorful';
+import { useAuth } from '../context/AuthContext';
+
+
 
 export default function StudentDashboard() {
   const navigate = useNavigate();
@@ -90,7 +93,6 @@ export default function StudentDashboard() {
           if (cardData.username) setUsername(cardData.username);
           if (cardData.account_link) setAccountLink(cardData.account_link);
           
-          // Fix: Ensure we only add '09' if it doesn't already exist in the database string
           if (cardData.phone_number) {
             const rawPhone = cardData.phone_number.trim();
             setPhone(rawPhone.startsWith('09') ? rawPhone : '09' + rawPhone);
@@ -100,7 +102,6 @@ export default function StudentDashboard() {
           if (cardData.card_template_color) setTemplateColor(cardData.card_template_color);
           if (cardData.card_text_color) setTextColor(cardData.card_text_color);
           
-          // Rehydrate form text changes if profile data was sparse
           if (cardData.full_name) setFullName(cardData.full_name);
           if (cardData.student_id) setStudentId(cardData.student_id);
           if (cardData.course) setCourse(cardData.course);
@@ -376,7 +377,7 @@ export default function StudentDashboard() {
                       <div className="overflow-visible flex flex-col justify-start">
                         <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>USERNAME</span>
                         <span className="block font-black tracking-wider uppercase whitespace-nowrap overflow-visible leading-none" style={{ color: textColor, fontSize: getDynamicFontSize(username || 'USERNAME', 2.8, 10) }}>
-                          @{username || 'USERNAME'}
+                          {username || 'USERNAME'}
                         </span>
                       </div>
                     </div>

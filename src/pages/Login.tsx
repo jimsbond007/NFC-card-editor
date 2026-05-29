@@ -1,157 +1,88 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// src/pages/Login.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
-import { LogIn, UserPlus, Key, Mail, RefreshCw } from 'lucide-react';
+import { ShieldAlert, KeyRound, Mail, Loader2 } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-  
-  // Form Inputs
+  const { loading } = useAuth(); // Safely unpacks now with no TypeScript errors
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-  const handleAuthSubmit = async (e: React.FormEvent) => {
+  const handleIdentityLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setMessage('');
+    setAuthLoading(true);
+    setErrorMsg('');
 
     try {
-      if (isRegistering) {
-        // --- REGISTRATION FLOW ---
-        const { data: authData, error: signUpError } = await supabase.auth.signUp({
-          email: email.trim(),
-          password: password,
-          options: {
-            emailRedirectTo: window.location.origin,
-            data: {
-              full_name: fullName.trim().toUpperCase(),
-            }
-          }
-        });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-        if (signUpError) throw signUpError;
+      if (error) throw error;
 
-        if (authData?.user) {
-          setMessage('Account registered! Please check your email inbox to verify your account before logging in.');
-          setIsRegistering(false);
-          setFullName('');
-          setEmail('');
-          setPassword('');
-        }
+      const userRole = data.user?.user_metadata?.role || 'student';
+      if (userRole === 'admin') {
+        navigate('/admin', { replace: true });
       } else {
-        // --- LOGIN FLOW ---
-        const { data: loginData, error: signInError } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password: password,
-        });
-
-        if (signInError) throw signInError;
-
-        if (loginData?.user) {
-          try {
-            // 1. Fetch the user profile role cleanly
-            const { data: profile, error: profileError } = await supabase
-              .from('profiles')
-              .select('role')
-              .eq('id', loginData.user.id)
-              .maybeSingle();
-
-            if (profileError) {
-              console.warn("Profile fetching warning:", profileError.message);
-            }
-
-            // 2. Clear out whitespace or fallback gracefully straight to 'student'
-            const optimizedRole = (profile?.role || 'student').trim().toLowerCase();
-
-            // 3. Clean SPA Routing Transitions
-            if (optimizedRole.includes('admin')) {
-              navigate('/admin', { replace: true });
-            } else {
-              navigate('/student', { replace: true });
-            }
-          } catch (routingError) {
-            console.error("Routing extraction fallback triggered:", routingError);
-            // Fail-safe fallback default
-            navigate('/student', { replace: true });
-          }
-        }
+        navigate('/student', { replace: true });
       }
-    } catch (error: any) {
-      setMessage('Authentication failed: ' + error.message);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Authentication sequence failed.');
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-neutral-100 flex flex-col items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-orange-600 p-8">
-        
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-black text-neutral-800 tracking-tight uppercase">
-            Techsystems NFC Gateway
-          </h1>
-          <p className="text-sm text-neutral-500 mt-1">
-            {isRegistering ? 'Create your institutional credential node' : 'Access your designer profile workspace'}
-          </p>
+    <div className="min-h-screen bg-neutral-900 text-neutral-100 flex items-center justify-center p-4 font-sans">
+      <div className="max-w-md w-full bg-neutral-950 border border-neutral-800 rounded-2xl p-8 shadow-2xl space-y-6">
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center mx-auto text-amber-400">
+            <KeyRound size={24} />
+          </div>
+          <h2 className="text-xl font-black uppercase tracking-widest text-white">Identity Gateway</h2>
+          <p className="text-xs text-neutral-500 font-mono">SECURE ACCESS REQUISITION</p>
         </div>
 
-        {message && (
-          <div className={`p-3 mb-4 rounded-lg text-xs font-bold text-center ${
-            message.includes('failed') || message.includes('Error') 
-              ? 'bg-red-50 text-red-600 border border-red-200' 
-              : 'bg-green-50 text-green-700 border border-green-200'
-          }`}>
-            {message}
+        {errorMsg && (
+          <div className="p-3 bg-red-950/40 border border-red-900/50 text-red-400 text-xs rounded-lg flex items-center gap-2 font-mono">
+            <ShieldAlert size={16} className="shrink-0" />
+            <span>{errorMsg}</span>
           </div>
         )}
 
-        <form onSubmit={handleAuthSubmit} className="space-y-4">
-          {isRegistering && (
-            <div>
-              <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Full Name</label>
-              <input 
-                required
-                type="text" 
-                value={fullName}
-                onChange={e => setFullName(e.target.value)}
-                className="w-full p-2.5 border rounded-lg bg-neutral-50 focus:ring-2 focus:ring-orange-500 outline-none font-medium text-sm text-neutral-800 tracking-wide uppercase" 
-                placeholder="JUAN DELA CRUZ"
-              />
-            </div>
-          )}
-
-          <div>
-            <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">BU Email Address</label>
+        <form onSubmit={handleIdentityLogin} className="space-y-4">
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase tracking-wider font-black text-neutral-400 font-mono">Email Vector</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 text-neutral-400" size={16} />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-600" size={16} />
               <input 
-                required
                 type="email" 
+                required
                 value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 p-2.5 border rounded-lg bg-neutral-50 focus:ring-2 focus:ring-orange-500 outline-none font-medium text-sm" 
-                placeholder="username@bicol-u.edu.ph"
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 transition" 
+                placeholder="admin@techsystems.com"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-neutral-500 uppercase mb-1">Password</label>
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase tracking-wider font-black text-neutral-400 font-mono">Access Key</label>
             <div className="relative">
-              <Key className="absolute left-3 top-3 text-neutral-400" size={16} />
+              <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-600" size={16} />
               <input 
-                required
                 type="password" 
+                required
                 value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 p-2.5 border rounded-lg bg-neutral-50 focus:ring-2 focus:ring-orange-500 outline-none font-medium text-sm" 
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-neutral-900 border border-neutral-800 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 transition" 
                 placeholder="••••••••"
               />
             </div>
@@ -159,40 +90,12 @@ export default function Login() {
 
           <button 
             type="submit" 
-            disabled={loading}
-            className="w-full bg-neutral-900 text-white font-bold py-3 rounded-lg hover:bg-neutral-800 transition flex justify-center items-center gap-2 text-sm mt-2 cursor-pointer"
+            disabled={authLoading || loading}
+            className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black py-2.5 rounded-lg text-xs transition uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer"
           >
-            {loading ? (
-              <RefreshCw className="animate-spin" size={16} />
-            ) : isRegistering ? (
-              <>
-                <UserPlus size={16} /> Register Identity Profile
-              </>
-            ) : (
-              <>
-                <LogIn size={16} /> Sign In to Dashboard
-              </>
-            )}
+            {authLoading ? <Loader2 size={14} className="animate-spin" /> : 'Authenticate'}
           </button>
         </form>
-
-        <hr className="my-6 border-neutral-200" />
-
-        <div className="text-center">
-          <button
-            type="button"
-            onClick={() => {
-              setIsRegistering(!isRegistering);
-              setMessage('');
-            }}
-            className="text-xs font-bold text-orange-600 hover:text-orange-700 transition underline underline-offset-4 cursor-pointer"
-          >
-            {isRegistering 
-              ? "Already have an account? Sign In here" 
-              : "New user? Register an account workspace here"}
-          </button>
-        </div>
-
       </div>
     </div>
   );
