@@ -33,7 +33,7 @@ export default function StudentDashboard() {
   // Load Orbitron Typography to match the brand identity
   useEffect(() => {
     const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
   }, []);
@@ -102,11 +102,11 @@ export default function StudentDashboard() {
     return num.trim().replace(/^09/, '');
   };
 
-  // Dynamic Scale Generator: Decreases cqw value as character lengths increase
+  // Optimized Dynamic Scale Generator
   const getDynamicFontSize = (text: string, baseCqw: number, threshold: number) => {
     if (!text || text.length <= threshold) return `${baseCqw}cqw`;
     const reductionFactor = threshold / text.length;
-    const computedSize = Math.max(baseCqw * reductionFactor, baseCqw * 0.52); 
+    const computedSize = Math.max(baseCqw * reductionFactor, baseCqw * 0.25); 
     return `${computedSize.toFixed(2)}cqw`;
   };
 
@@ -155,7 +155,7 @@ export default function StudentDashboard() {
               </div>
               <div>
                 <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Student ID</label>
-                <input required type="text" value={studentId} onChange={e => setStudentId(e.target.value)} className="w-full p-2 border rounded bg-gray-50 focus:ring-2 focus:ring-tech-orange outline-none font-medium" placeholder="2024-01-077733"/>
+                <input required type="text" value={studentId} onChange={e => setStudentId(e.target.value)} className="w-full p-2 border rounded bg-gray-50 focus:ring-2 focus:ring-tech-orange outline-none font-medium" placeholder="0000-00-000000"/>
               </div>
             </div>
 
@@ -204,209 +204,234 @@ export default function StudentDashboard() {
           </form>
         </div>
 
-        {/* Right Preview Side Panel - Maximized and Enlarged to support high quality print previews */}
+        {/* Right Preview Side Panel */}
         <div className="lg:col-span-7 bg-white p-6 rounded-xl shadow-md flex flex-col items-center justify-center min-h-[520px]">
           <div className="w-full flex justify-between items-center mb-6">
             <span className="text-xs font-bold tracking-wider uppercase text-neutral-400">
-              HIGH-RESOLUTION PRINT WORKSPACE (CR80 RATIO)
+              CARD DESIGN OVERVIEW
             </span>
             <button
               type="button"
               onClick={() => setIsShowingBack(!isShowingBack)}
-              className="flex items-center gap-2 px-4 py-2 bg-tech-orange text-white rounded-lg text-sm font-bold hover:bg-orange-600 transition shadow-md"
+              className="flex items-center gap-2 px-4 py-2 bg-tech-orange text-white rounded-lg text-sm font-bold hover:bg-orange-600 transition shadow-md z-30"
             >
-              <RefreshCw size={16} className={isShowingBack ? 'rotate-180 transition-transform duration-300' : 'transition-transform duration-300'} />
-              Flip Card Viewport {isShowingBack ? '(Front)' : '(Back)'}
+              <RefreshCw size={16} className={isShowingBack ? 'rotate-180 transition-transform duration-500' : 'transition-transform duration-500'} />
+              Flip Card {isShowingBack ? '(Front)' : '(Back)'}
             </button>
           </div>
 
-          {/* Container Queries Active Parent: Scaled Up horizontally using max-w-xl */}
+          {/* 3D PERSPECTIVE VIEWPORT FRAME */}
           <div 
-            className="w-full max-w-xl aspect-[1.586/1] relative select-none @container"
+            className="w-full max-w-xl aspect-[1.586/1] relative select-none [perspective:1000px] @container"
             style={{ fontFamily: "'Orbitron', sans-serif" }}
           >
-            {!isShowingBack ? (
-              /* FRONT HIGH VISIBILITY SCIFI CARD DESIGN */
+            {/* CORE ROTATION MATRIX COMPONENT */}
+            <div 
+              className={`w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] ${
+                isShowingBack ? '[transform:rotateY(180deg)]' : ''
+              }`}
+            >
+              
+              {/* FRONT CARD FACE */}
               <div 
-                className="w-full h-full rounded-2xl shadow-2xl relative overflow-hidden transition-all duration-300 border-3 p-[5cqw] flex flex-col justify-between"
+                className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl border-[4px] p-[4cqw] flex flex-col justify-between [backface-visibility:hidden] overflow-hidden"
                 style={{ backgroundColor: bgColor, borderColor: templateColor }}
               >
-                {/* ================= EXTRA VISIBLE TECHY DESIGN OBJECTS ================= */}
-                {/* Abstract Background Tech Circuit Lines Trace */}
-                <div className="absolute inset-0 pointer-events-none opacity-15 overflow-hidden">
-                  <div className="absolute top-[20%] left-[-5%] w-[40%] h-[2px] rotate-[35deg]" style={{ backgroundColor: templateColor }} />
-                  <div className="absolute top-[35%] left-[23%] w-[20%] h-[2px] -rotate-[45deg]" style={{ backgroundColor: templateColor }} />
-                  <div className="absolute bottom-[25%] right-[-5%] w-[50%] h-[2px] rotate-[25deg]" style={{ backgroundColor: templateColor }} />
-                  <div className="absolute top-[10%] right-[30%] w-[15%] h-[15%] rounded-full border-2 border-dashed" style={{ borderColor: templateColor }} />
-                </div>
-
-                {/* Ultra-Bold Frame Tech Accents (Top Corner Brackets) */}
-                <div className="absolute top-0 left-0 w-[8cqw] h-[8cqw] border-l-4 border-t-4" style={{ borderColor: templateColor }} />
-                <div className="absolute top-0 right-0 w-[8cqw] h-[8cqw] border-r-4 border-t-4" style={{ borderColor: templateColor }} />
-                <div className="absolute bottom-0 left-0 w-[8cqw] h-[8cqw] border-l-4 border-b-4" style={{ borderColor: templateColor }} />
-                <div className="absolute bottom-0 right-0 w-[8cqw] h-[8cqw] border-r-4 border-b-4" style={{ borderColor: templateColor }} />
-
-                {/* Geometric Running Grid Tracks (Top / Bottom Runway) */}
-                <div className="absolute top-0 left-[12cqw] right-[12cqw] h-[2.5cqw] border-b-2 flex justify-between" style={{ borderColor: templateColor }}>
-                  <div className="w-[15%] h-full border-r-2" style={{ borderColor: templateColor }} />
-                  <div className="w-[30%] h-[60%] border-l-2 border-b-2" style={{ borderColor: templateColor }} />
-                  <div className="w-[15%] h-full border-l-2" style={{ borderColor: templateColor }} />
-                </div>
-                
-                <div className="absolute bottom-0 left-[12cqw] right-[24cqw] h-[2.5cqw] border-t-2 flex justify-start items-end" style={{ borderColor: templateColor }}>
-                  <div className="w-[25%] h-[60%] border-r-2 border-t-2" style={{ borderColor: templateColor }} />
-                  <div className="ml-[4cqw] mb-[0.5cqw] text-[1cqw] tracking-widest opacity-60" style={{ color: templateColor }}>SYS_LNK // ACTIVE</div>
-                </div>
-
-                {/* Cyber HUD Plus Overlays (+) */}
-                <div className="absolute top-[30%] left-[4cqw] text-[3cqw] font-light opacity-60 leading-none" style={{ color: templateColor }}>+</div>
-                <div className="absolute bottom-[30%] right-[24cqw] text-[3cqw] font-light opacity-60 leading-none" style={{ color: templateColor }}>+</div>
-
-                {/* ROW 1: HEADER SECTION */}
-                <div className="flex justify-between items-start z-10 w-full">
-                  <div className="space-y-1">
-                    <div className="text-[2.2cqw] font-black uppercase tracking-[0.25em]" style={{ color: textColor }}>Identification</div>
-                    <div className="text-[1.3cqw] font-bold tracking-[0.3em]" style={{ color: templateColor }}>SECURE NODE SYSTEM</div>
-                  </div>
+                {/* MECHA TECHY BACKGROUND SHAPES AND CIRCUIT LINES (FRONT) */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+                  {/* Cyber Dot Grid Array */}
+                  <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `radial-gradient(${templateColor} 1px, transparent 1px)`, backgroundSize: '16px 16px' }} />
                   
-                  {/* High Visibility TechSystems Corporate Crest */}
-                  <div className="flex items-center gap-[2cqw] bg-neutral-900/90 px-[3cqw] py-[1.2cqw] rounded-xl border-2" style={{ borderColor: templateColor }}>
-                    <div className="w-[5.5cqw] h-[5.5cqw] rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-400 flex items-center justify-center font-black text-[3cqw] text-neutral-900 shadow-md">
-                      T
+                  {/* Random Hardware Crosshairs & Corner Blocks */}
+                  <div className="absolute top-[1.5cqw] right-[1.5cqw] w-[22cqw] h-[22cqw] border-t-[3px] border-r-[3px]" style={{ borderColor: templateColor }} />
+                  <div className="absolute bottom-[1.5cqw] left-[1.5cqw] w-[18cqw] h-[18cqw] border-b-[3px] border-l-[3px]" style={{ borderColor: templateColor }} />
+                  
+                  {/* Tech Line Metrics */}
+                  <div className="absolute top-1/2 left-[28%] w-[45%] h-[2px] border-b-[2px] border-dashed animate-pulse" style={{ borderColor: templateColor }} />
+                  <div className="absolute top-[28%] right-[4cqw] text-[3cqw] font-black leading-none" style={{ color: templateColor }}>+</div>
+                  <div className="absolute bottom-[28%] left-[28%] text-[3cqw] font-black leading-none" style={{ color: templateColor }}>+</div>
+                  
+                  {/* Tech Decal Angle Blocks */}
+                  <div className="absolute top-[15%] left-[-2cqw] w-[5cqw] h-[8cqw] border-r-[2px] border-t-[2px] rotate-12 opacity-40" style={{ borderColor: templateColor }} />
+                  <div className="absolute bottom-[10%] right-[-1cqw] w-[8cqw] h-[3cqw] border-l-[2px] border-b-[2px] -rotate-12 opacity-30" style={{ borderColor: templateColor }} />
+                </div>
+
+                {/* HEADER ROW */}
+                <div className="w-full flex justify-between items-center border-b-[3px] pb-[1.5cqw] z-10" style={{ borderColor: templateColor }}>
+                  <div className="flex items-center gap-[2cqw]">
+                    <div className="text-[2cqw] font-black uppercase tracking-[0.25em]" style={{ color: textColor }}>IDENTIFICATION BADGE</div>
+                    <div className="px-[1.5cqw] py-[0.4cqw] text-[1.1cqw] font-black rounded bg-neutral-900 border-[2px] uppercase tracking-widest text-amber-400" style={{ borderColor: templateColor }}>
+                      SYS_SEC // AUTH
                     </div>
-                    <div className="text-right">
-                      <div className="text-[1.8cqw] font-black tracking-wider text-amber-400 leading-none">TECHSYSTEMS</div>
-                      <div className="text-[1.1cqw] font-black tracking-[0.25em] text-white mt-1 leading-none">ASSOCIATION</div>
-                    </div>
+                  </div>
+                  <div className="text-[1.2cqw] font-mono font-black tracking-widest" style={{ color: textColor }}>
+                    HEX_ID // 6F9A24EE
                   </div>
                 </div>
 
-                {/* ROW 2: CORE LARGE TYPOGRAPHY COMPONENT SLOTS */}
-                <div className="grid grid-cols-12 gap-1 items-center my-auto z-10 w-full pt-[2cqw]">
+                {/* CARD BODY GRID INFORMATION */}
+                <div className="w-full grid grid-cols-12 gap-[3cqw] items-stretch my-auto overflow-visible z-10">
                   
-                  {/* Left Box: Username Container Frame */}
-                  <div className="col-span-4 flex flex-col items-center justify-center pr-[1cqw]">
-                    <div className="text-[1.4cqw] font-bold uppercase tracking-widest opacity-70 mb-1 w-full text-center" style={{ color: textColor }}>Username</div>
-                    <div 
-                      className="w-full border-3 py-[2.5cqw] px-[1cqw] rounded-xl text-center font-black tracking-widest uppercase truncate shadow-lg"
-                      style={{ 
-                        borderColor: templateColor, 
-                        color: templateColor, 
-                        backgroundColor: `${templateColor}18`,
-                        fontSize: getDynamicFontSize(username || 'USERNAME', 3.2, 8) 
-                      }}
-                    >
-                      {username || 'USERNAME'}
+                  {/* LEFT PANE COLUMN: QR FRAME */}
+                  <div className="col-span-4 flex flex-col items-center justify-center gap-[2cqw] border-r-[3px] pr-[2.5cqw]" style={{ borderColor: templateColor }}>
+                    <div className="w-full aspect-square bg-white p-[5%] rounded-xl border-[3px] shadow-2xl flex items-center justify-center" style={{ borderColor: templateColor }}>
+                      <QRCode 
+                        value={accountLink || 'https://bicol-u.edu.ph'} 
+                        style={{ height: "100%", maxWidth: "100%", width: "100%" }}
+                        fgColor="#0d0e12"
+                        bgColor="#FFFFFF"
+                      />
+                    </div>
+
+                    <div className="w-full flex items-center justify-center gap-[1.5cqw] bg-neutral-900 p-[1.5cqw] rounded-lg border-[2px]" style={{ borderColor: templateColor }}>
+                      <div className="w-[4cqw] h-[4cqw] rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center font-black text-[2.2cqw] text-neutral-900 shadow-md">
+                        T
+                      </div>
+                      <div className="text-left leading-none">
+                        <div className="text-[1.2cqw] font-black tracking-wider text-amber-400">TECHSYSTEMS</div>
+                        <div className="text-[0.8cqw] font-black tracking-widest text-white mt-1">ASSOCIATION</div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Center Box: Core Large Student Identity Parameters */}
-                  <div className="col-span-6 flex flex-col pl-[3cqw] space-y-[1.5cqw] border-l-3" style={{ borderColor: templateColor }}>
-                    <div>
-                      <span className="block text-[1.3cqw] font-bold uppercase tracking-[0.2em] opacity-60 mb-0.5" style={{ color: textColor }}>Full Name</span>
+                  {/* RIGHT PANE COLUMN: STUDENT PARTICULARS */}
+                  <div className="col-span-8 flex flex-col justify-between space-y-[2cqw] pl-[1cqw] pr-[1cqw] overflow-visible">
+                    <div className="w-full overflow-visible">
+                      <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: textColor }}>
+                        Full Name // Owner
+                      </span>
                       <span 
-                        className="block font-black uppercase tracking-wide truncate leading-none" 
-                        style={{ color: templateColor, fontSize: getDynamicFontSize(fullName || 'JUAN DELA CRUZ', 3.6, 16) }}
+                        className="block font-black uppercase tracking-wide whitespace-nowrap overflow-visible leading-none" 
+                        style={{ 
+                          color: templateColor, 
+                          fontSize: getDynamicFontSize(fullName || 'JUAN DELA CRUZ', 4.2, 14) 
+                        }}
                       >
                         {fullName || 'JUAN DELA CRUZ'}
                       </span>
                     </div>
                     
-                    <div>
-                      <span className="block text-[1.3cqw] font-bold uppercase tracking-[0.2em] opacity-60 mb-0.5" style={{ color: textColor }}>Course/Program</span>
+                    <div className="w-full overflow-visible">
+                      <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: textColor }}>
+                        Course / Assignment Location
+                      </span>
                       <span 
-                        className="block font-black uppercase tracking-tight truncate leading-none" 
-                        style={{ color: templateColor, fontSize: getDynamicFontSize(course || 'BS COURSE/PROGRAM', 2.8, 22) }}
+                        className="block font-black uppercase tracking-tight whitespace-nowrap overflow-visible leading-none" 
+                        style={{ 
+                          color: textColor, 
+                          fontSize: getDynamicFontSize(course || 'BS COURSE/PROGRAM', 3.2, 16) 
+                        }}
                       >
                         {course || 'BS COURSE/PROGRAM'}
                       </span>
                     </div>
 
-                    <div>
-                      <span className="block text-[1.3cqw] font-bold uppercase tracking-[0.2em] opacity-60 mb-0.5" style={{ color: textColor }}>Student ID</span>
-                      <span 
-                        className="block font-mono font-black tracking-widest leading-none" 
-                        style={{ color: templateColor, fontSize: getDynamicFontSize(studentId || '2024-01-077733', 3.0, 14) }}
-                      >
-                        {studentId || '2024-01-077733'}
-                      </span>
-                    </div>
-                  </div>
+                    <div className="grid grid-cols-2 gap-[2cqw] pt-[1.5cqw] border-t-[2px] border-dashed overflow-visible" style={{ borderColor: templateColor }}>
+                      <div className="overflow-visible space-y-[1.5cqw]">
+                        <div className="overflow-visible">
+                          <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>
+                            Student ID
+                          </span>
+                          <span 
+                            className="block font-mono font-black tracking-widest whitespace-nowrap overflow-visible leading-none" 
+                            style={{ 
+                              color: templateColor, 
+                              fontSize: getDynamicFontSize(studentId || '0000-00-000000', 2.8, 14) 
+                            }}
+                          >
+                            {studentId || '0000-00-000000'}
+                          </span>
+                        </div>
 
-                  {/* Right Box: Highly Visible Rotated Contact Strip (Without 09 Prefix) */}
-                  <div className="col-span-2 flex justify-center items-center h-full relative">
-                    <div className="absolute flex flex-col items-center rotate-90 transform origin-center whitespace-nowrap translate-x-[1cqw]">
-                      <span className="text-[1.1cqw] font-bold tracking-[0.2em] uppercase opacity-50 mb-0.5" style={{ color: textColor }}>CONTACT TEL</span>
-                      <span 
-                        className="font-mono font-black tracking-[0.25em]" 
-                        style={{ color: textColor, fontSize: getDynamicFontSize(formatPhilippinePhone(phone) || '948623020', 2.4, 9) }}
-                      >
-                        {formatPhilippinePhone(phone) || '948623020'}
-                      </span>
+                        <div className="overflow-visible">
+                          <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>
+                            Contact Number
+                          </span>
+                          <span 
+                            className="block font-mono font-black tracking-widest whitespace-nowrap overflow-visible leading-none text-[2.4cqw]" 
+                            style={{ color: templateColor }}
+                          >
+                            +63{formatPhilippinePhone(phone) || '948623020'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="overflow-visible flex flex-col justify-start">
+                        <span className="block text-[1.2cqw] font-black uppercase tracking-[0.2em] mb-0.5" style={{ color: textColor }}>
+                          USERNAME
+                        </span>
+                        <span 
+                          className="block font-black tracking-wider uppercase whitespace-nowrap overflow-visible leading-none" 
+                          style={{ 
+                            color: textColor, 
+                            fontSize: getDynamicFontSize(username || 'USERNAME', 2.8, 10) 
+                          }}
+                        >
+                          @{username || 'USERNAME'}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                 </div>
 
-                {/* ROW 3: FOOTER ACCENTS & SCAN NODE */}
-                <div className="w-full flex justify-between items-end border-t-2 pt-[2cqw]" style={{ borderColor: templateColor }}>
-                  <div className="space-y-1">
-                    <div className="text-[1.3cqw] tracking-[0.25em] font-black uppercase font-mono" style={{ color: templateColor }}>
-                      NFC SECURITY PROTOCOL HARDWARE
-                    </div>
-                    <div className="text-[1cqw] tracking-widest font-medium opacity-40 uppercase font-mono" style={{ color: textColor }}>
-                      HEX ID CODE // 6F9A24EE7B10
-                    </div>
+                {/* FOOTER SYSTEM LINE */}
+                <div className="w-full flex justify-between items-center border-t-[3px] pt-[1.5cqw] mt-[1cqw] z-10" style={{ borderColor: templateColor }}>
+                  <div className="text-[1.3cqw] tracking-[0.2em] font-black uppercase font-mono" style={{ color: textColor }}>
+                    Issued by: TECHSYSTEMS ASSOCIATION
                   </div>
-                  
-                  {/* High Visibility Thick QR Display Wrapper */}
-                  <div className="w-[19%] aspect-square bg-white p-[1.5%] rounded-xl shadow-2xl border-2 flex items-center justify-center transform hover:scale-105 transition-all duration-200" style={{ borderColor: templateColor }}>
-                    <QRCode 
-                      value={accountLink || 'https://bicol-u.edu.ph'} 
-                      style={{ height: "100%", maxWidth: "100%", width: "100%" }}
-                      fgColor="#0d0e12"
-                      bgColor="#FFFFFF"
-                    />
+                  <div className="text-[1.2cqw] tracking-[0.25em] font-black uppercase font-mono" style={{ color: templateColor }}>
+                    HARDWARE NODE STATUS // ACTIVE
                   </div>
                 </div>
-
               </div>
-            ) : (
-              /* BACK HIGH VISIBILITY SCIFI CARD DESIGN */
+
+              {/* BACK CARD FACE */}
               <div 
-                className="w-full h-full rounded-2xl shadow-2xl relative overflow-hidden transition-all duration-300 border-3 p-[5cqw] flex flex-col items-center justify-center text-center"
+                className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl border-[4px] p-[5cqw] flex flex-col items-center justify-center text-center [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden"
                 style={{ backgroundColor: bgColor, borderColor: templateColor }}
               >
-                {/* Tech Matrix Graphic Shapes on the Back Panel (Highly Visible Grid Blocks) */}
-                <div className="absolute inset-0 opacity-10 pointer-events-none grid grid-cols-8 gap-3 p-6">
-                  {Array.from({ length: 32 }).map((_, i) => (
-                    <div key={i} className="border-2 aspect-square rounded-xs" style={{ borderColor: templateColor }} />
-                  ))}
+                {/* MECHA TECHY DESIGN SHAPES AND GRIDS (BACK) */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+                  {/* Digital Tech Matrix Blocks */}
+                  <div className="absolute inset-0 pointer-events-none grid grid-cols-8 gap-3 p-6 opacity-[0.15]">
+                    {Array.from({ length: 32 }).map((_, i) => (
+                      <div key={i} className="border-[2px] aspect-square rounded-xs" style={{ borderColor: templateColor }} />
+                    ))}
+                  </div>
+
+                  {/* Concentric Structural Circuits */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[46cqw] h-[46cqw] rounded-full border-[3px] border-dashed animate-spin" style={{ borderColor: templateColor, animationDuration: '25s' }} />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36cqw] h-[36cqw] rounded-full border-[4px] border-double" style={{ borderColor: templateColor }} />
+
+                  {/* Mechanical Angle Brackets */}
+                  <div className="absolute top-[2cqw] left-[2cqw] w-[5cqw] h-[5cqw] border-t-[4px] border-l-[4px]" style={{ borderColor: templateColor }} />
+                  <div className="absolute top-[2cqw] right-[2cqw] w-[5cqw] h-[5cqw] border-t-[4px] border-r-[4px]" style={{ borderColor: templateColor }} />
+                  <div className="absolute bottom-[2cqw] left-[2cqw] w-[5cqw] h-[5cqw] border-b-[4px] border-l-[4px]" style={{ borderColor: templateColor }} />
+                  <div className="absolute bottom-[2cqw] right-[2cqw] w-[5cqw] h-[5cqw] border-b-[4px] border-r-[4px]" style={{ borderColor: templateColor }} />
                 </div>
 
-                {/* Geometric Abstract Center Circles */}
-                <div className="absolute w-[45cqw] h-[45cqw] rounded-full border-2 border-dashed animate-spin opacity-10" style={{ borderColor: templateColor, animationDuration: '40s' }} />
-                <div className="absolute w-[35cqw] h-[35cqw] rounded-full border-4 border-double opacity-20" style={{ borderColor: templateColor }} />
-
-                <div className="z-10 space-y-4">
-                  <div className="w-[12cqw] h-[12cqw] mx-auto rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-400 flex items-center justify-center font-black text-[6cqw] text-neutral-900 border-2 shadow-2xl animate-pulse" style={{ borderColor: templateColor }}>
+                {/* Brand Card Shield Frame */}
+                <div className="z-10 space-y-4 bg-neutral-950/90 p-[4cqw] rounded-2xl border-[3px]" style={{ borderColor: templateColor }}>
+                  <div className="w-[14cqw] h-[14cqw] mx-auto rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-400 flex items-center justify-center font-black text-[7cqw] text-neutral-900 border-[3px] shadow-2xl">
                     T
                   </div>
                   <div>
-                    <div className="text-[5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: templateColor }}>
-                      TechSystems
+                    <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: templateColor }}>
+                      COMPUTER STUDIES
                     </div>
-                    <div className="text-[2.2cqw] font-black tracking-[0.5em] uppercase opacity-80 mt-2" style={{ color: textColor }}>
-                      Association
+                    <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">
+                      DEPARTMENT
                     </div>
                   </div>
                 </div>
               </div>
-            )}
+
+            </div>
           </div>
           
           <p className="text-[11px] text-neutral-400 mt-6 text-center italic">
-            Component coordinates fully maximized for print execution layouts.
+            MAKE SURE THAT ALL OF THE INFORMATION YOU PROVIDE IS FACTUAL
           </p>
         </div>
 
