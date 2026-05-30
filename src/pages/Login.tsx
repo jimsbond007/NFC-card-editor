@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
-import { ShieldAlert, KeyRound, Mail, Loader2, UserPlus, User, Hash } from 'lucide-react';
+import { ShieldAlert, KeyRound, Mail, Loader2, UserPlus, User, Hash, AlertTriangle, X } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,6 +19,14 @@ export default function Login() {
   const [authLoading, setAuthLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [showWarningModal, setShowWarningModal] = useState(false);
+
+  // Function to check if email is a personal email (not BU email)
+  const isPersonalEmail = (email: string): boolean => {
+    const personalDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'ymail.com', 'aol.com', 'icloud.com', 'mail.com', 'protonmail.com', 'live.com'];
+    const domain = email.toLowerCase().split('@')[1];
+    return personalDomains.includes(domain);
+  };
 
   const handleIdentityAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +36,12 @@ export default function Login() {
 
     try {
       if (isSignUp) {
+        // Check if email is a personal email before registration
+        if (isPersonalEmail(email)) {
+          setAuthLoading(false);
+          setShowWarningModal(true);
+          return;
+        }
         // Run Supabase User Creation Strategy with metadata payloads
         const { data, error } = await supabase.auth.signUp({
           email,
@@ -199,6 +213,34 @@ export default function Login() {
           </button>
         </div>
       </div>
+
+      {/* Warning Modal for Personal Email */}
+      {showWarningModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+          <div className="bg-neutral-950 border border-amber-500/50 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center shrink-0">
+                <AlertTriangle size={24} className="text-amber-400" />
+              </div>
+              <div className="flex-1 space-y-3">
+                <div>
+                  <h3 className="text-lg font-black uppercase tracking-wider text-white">Personal Email Detected</h3>
+                  <p className="text-xs text-neutral-400 mt-1">Please use your official BU email address</p>
+                </div>
+                <p className="text-sm text-neutral-300 leading-relaxed">
+                  You are using a personal email address ({email}). For registration, please use your official Bicol University email address (e.g., student@bicol-u.edu.ph).
+                </p>
+                <button
+                  onClick={() => setShowWarningModal(false)}
+                  className="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black py-2.5 rounded-lg text-xs transition uppercase tracking-widest cursor-pointer"
+                >
+                  I Understand
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
