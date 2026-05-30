@@ -175,7 +175,13 @@ export default function StudentDashboard() {
         card_bg_color: bgColor,
         card_template_color: templateColor,
         card_text_color: textColor,
-        status: 'pending' 
+        background_image: backgroundImage,
+        bg_image_zoom: bgImageZoom,
+        bg_image_opacity: bgImageOpacity,
+        bg_image_rotation: bgImageRotation,
+        bg_image_position_x: bgImagePosition.x,
+        bg_image_position_y: bgImagePosition.y,
+        status: 'pending'
       });
 
       if (cardError) throw cardError;

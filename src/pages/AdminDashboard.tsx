@@ -233,6 +233,22 @@ export default function AdminDashboard() {
                     className="w-full aspect-[1.586/1] rounded-2xl border-[4px] p-[4cqw] flex flex-col justify-between overflow-hidden relative @container select-none shadow-2xl"
                     style={{ fontFamily: "'Orbitron', sans-serif", backgroundColor: req.card_bg_color || '#0d0e12', borderColor: req.card_template_color || '#38bdf8' }}
                   >
+                    {/* Background Image Layer */}
+                    {req.background_image && (
+                      <div className="absolute inset-0 z-0">
+                        <img
+                          src={req.background_image}
+                          alt="Background"
+                          className="w-full h-full object-cover"
+                          style={{
+                            transform: `translate(${req.bg_image_position_x || 0}px, ${req.bg_image_position_y || 0}px) scale(${(req.bg_image_zoom || 100) / 100}) rotate(${req.bg_image_rotation || 0}deg)`,
+                            opacity: (req.bg_image_opacity || 100) / 100,
+                            transformOrigin: 'center',
+                            pointerEvents: 'none',
+                          }}
+                        />
+                      </div>
+                    )}
                     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
                       <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `radial-gradient(${req.card_template_color || '#38bdf8'} 1px, transparent 1px)`, backgroundSize: '16px 16px' }} />
                       <div className="absolute top-[1.5cqw] right-[1.5cqw] w-[22cqw] h-[22cqw] border-t-[3px] border-r-[3px]" style={{ borderColor: req.card_template_color || '#38bdf8' }} />
@@ -322,6 +338,22 @@ export default function AdminDashboard() {
                     className="w-full aspect-[1.586/1] rounded-2xl border-[4px] p-[5cqw] flex flex-col items-center justify-center text-center overflow-hidden relative @container select-none shadow-2xl"
                     style={{ fontFamily: "'Orbitron', sans-serif", backgroundColor: req.card_bg_color || '#0d0e12', borderColor: req.card_template_color || '#38bdf8' }}
                   >
+                    {/* Background Image Layer */}
+                    {req.background_image && (
+                      <div className="absolute inset-0 z-0">
+                        <img
+                          src={req.background_image}
+                          alt="Background"
+                          className="w-full h-full object-cover"
+                          style={{
+                            transform: `translate(${req.bg_image_position_x || 0}px, ${req.bg_image_position_y || 0}px) scale(${(req.bg_image_zoom || 100) / 100}) rotate(${req.bg_image_rotation || 0}deg)`,
+                            opacity: (req.bg_image_opacity || 100) / 100,
+                            transformOrigin: 'center',
+                            pointerEvents: 'none',
+                          }}
+                        />
+                      </div>
+                    )}
                     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
                       <div className="absolute inset-0 pointer-events-none grid grid-cols-8 gap-3 p-6 opacity-[0.15]">
                         {Array.from({ length: 32 }).map((_, i) => (
