@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { User, LogOut, Save, RefreshCw, Shield, Upload, Trash, ZoomIn, RotateCw } from 'lucide-react';
+import { User, LogOut, Save, RefreshCw, Shield, Upload, Trash, ZoomIn, RotateCw, X } from 'lucide-react';
 import { QRCode } from 'react-qr-code';
 import { HexColorPicker } from 'react-colorful';
 import { useAuth } from '../context/AuthContext';
