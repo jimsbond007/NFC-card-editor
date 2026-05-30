@@ -52,7 +52,7 @@ export const IdCard = React.forwardRef<HTMLDivElement, IdCardProps>(({ data, sid
               <div>
                 <p className="text-[8px] uppercase opacity-60 m-0">Full Name // Owner</p>
                 <h3 className="text-lg font-black uppercase truncate m-0" style={{ color: templateColor }}>
-                  {data.full_name || 'James P. Espinosa'}
+                  {data.full_name || 'Juan De La Cruz'}
                 </h3>
               </div>
               <div>
