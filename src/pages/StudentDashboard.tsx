@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { User, LogOut, Save, RefreshCw, Shield, Upload, X, ZoomIn, RotateCw } from 'lucide-react';
+import { User, LogOut, Save, RefreshCw, Shield, Upload, Trash, ZoomIn, RotateCw } from 'lucide-react';
 import { QRCode } from 'react-qr-code';
 import { HexColorPicker } from 'react-colorful';
 import { useAuth } from '../context/AuthContext';
@@ -54,11 +54,24 @@ export default function StudentDashboard() {
   
   const [isShowingBack, setIsShowingBack] = useState(false);
 
+  // Design Slots State
+  const [designSlots, setDesignSlots] = useState<any[]>([null, null, null]);
+
   useEffect(() => {
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
+
+    // Load design slots from localStorage
+    const savedSlots = localStorage.getItem('designSlots');
+    if (savedSlots) {
+      try {
+        setDesignSlots(JSON.parse(savedSlots));
+      } catch (err) {
+        console.error('Error loading design slots:', err);
+      }
+    }
   }, []);
 
   // Safe Authentication Initialization Block
@@ -271,6 +284,64 @@ export default function StudentDashboard() {
     setBgImageOpacity(100);
     setBgImageRotation(0);
     setBgImagePosition({ x: 0, y: 0 });
+  };
+
+  // Design Slots Functions
+  const saveDesignToSlot = (slotIndex: number) => {
+    const currentDesign = {
+      fullName,
+      studentId,
+      course,
+      username,
+      accountLink,
+      phone,
+      bgColor,
+      templateColor,
+      textColor,
+      backgroundImage,
+      bgImageZoom,
+      bgImageOpacity,
+      bgImageRotation,
+      bgImagePosition,
+      timestamp: new Date().toISOString(),
+    };
+
+    const updatedSlots = [...designSlots];
+    updatedSlots[slotIndex] = currentDesign;
+    setDesignSlots(updatedSlots);
+    localStorage.setItem('designSlots', JSON.stringify(updatedSlots));
+    setMessage(`Design saved to Slot ${slotIndex + 1}!`);
+  };
+
+  const loadDesignFromSlot = (slotIndex: number) => {
+    const savedDesign = designSlots[slotIndex];
+    if (savedDesign) {
+      setFullName(savedDesign.fullName);
+      setStudentId(savedDesign.studentId);
+      setCourse(savedDesign.course);
+      setUsername(savedDesign.username);
+      setAccountLink(savedDesign.accountLink);
+      setPhone(savedDesign.phone);
+      setBgColor(savedDesign.bgColor);
+      setTemplateColor(savedDesign.templateColor);
+      setTextColor(savedDesign.textColor);
+      setBackgroundImage(savedDesign.backgroundImage);
+      setBgImageZoom(savedDesign.bgImageZoom);
+      setBgImageOpacity(savedDesign.bgImageOpacity);
+      setBgImageRotation(savedDesign.bgImageRotation);
+      setBgImagePosition(savedDesign.bgImagePosition);
+      setMessage(`Design loaded from Slot ${slotIndex + 1}!`);
+    } else {
+      setMessage('No design saved in this slot.');
+    }
+  };
+
+  const deleteDesignFromSlot = (slotIndex: number) => {
+    const updatedSlots = [...designSlots];
+    updatedSlots[slotIndex] = null;
+    setDesignSlots(updatedSlots);
+    localStorage.setItem('designSlots', JSON.stringify(updatedSlots));
+    setMessage(`Design in Slot ${slotIndex + 1} deleted!`);
   };
 
   // Scroll lock effect
@@ -588,6 +659,84 @@ export default function StudentDashboard() {
           </div>
           
           <p className="text-[11px] text-neutral-400 mt-6 text-center italic">MAKE SURE THAT ALL OF THE INFORMATION YOU PROVIDE ARE TRUE AND CORRECT</p>
+
+          {/* Design Save Slots Section */}
+          <div className="w-full mt-8 pt-6 border-t border-neutral-200">
+            <h3 className="text-sm font-bold text-neutral-800 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <Save size={16} className="text-orange-600" /> Design Save Slots
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {designSlots.map((slot, index) => (
+                <div
+                  key={index}
+                  className="bg-neutral-50 border-2 border-neutral-300 rounded-xl p-4 hover:border-orange-400 transition-colors"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-bold text-neutral-600 uppercase tracking-wider">
+                      Slot {index + 1}
+                    </span>
+                    {slot && (
+                      <span className="text-[10px] text-neutral-400">
+                        {new Date(slot.timestamp).toLocaleDateString()}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {slot ? (
+                    <div className="space-y-2">
+                      <div className="flex gap-1 mb-2">
+                        <div
+                          className="w-6 h-6 rounded border border-neutral-300"
+                          style={{ backgroundColor: slot.bgColor }}
+                          title="Background Color"
+                        />
+                        <div
+                          className="w-6 h-6 rounded border border-neutral-300"
+                          style={{ backgroundColor: slot.templateColor }}
+                          title="Template Color"
+                        />
+                        <div
+                          className="w-6 h-6 rounded border border-neutral-300"
+                          style={{ backgroundColor: slot.textColor }}
+                          title="Text Color"
+                        />
+                      </div>
+                      <p className="text-[11px] font-semibold text-neutral-700 truncate">
+                        {slot.fullName || 'No Name'}
+                      </p>
+                      <div className="flex gap-2 mt-3">
+                        <button
+                          type="button"
+                          onClick={() => loadDesignFromSlot(index)}
+                          className="flex-1 px-3 py-1.5 bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold rounded-lg transition cursor-pointer uppercase tracking-wider"
+                        >
+                          Load
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => deleteDesignFromSlot(index)}
+                          className="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 text-xs font-bold rounded-lg transition cursor-pointer"
+                        >
+                          <Trash size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <p className="text-[11px] text-neutral-400 italic">Empty slot</p>
+                      <button
+                        type="button"
+                        onClick={() => saveDesignToSlot(index)}
+                        className="w-full px-3 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-700 text-xs font-bold rounded-lg transition cursor-pointer uppercase tracking-wider"
+                      >
+                        Save Current Design
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
       </div>
