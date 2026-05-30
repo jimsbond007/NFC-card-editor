@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { User, LogOut, Save, RefreshCw, Shield, Upload, Trash, ZoomIn, RotateCw } from 'lucide-react';
+import { User, LogOut, Save, RefreshCw, Shield, Upload, Trash, ZoomIn, RotateCw, X } from 'lucide-react';
 import { QRCode } from 'react-qr-code';
 import { HexColorPicker } from 'react-colorful';
 import { useAuth } from '../context/AuthContext';
@@ -545,7 +546,6 @@ export default function StudentDashboard() {
                     <div className="text-[2cqw] font-black uppercase tracking-[0.25em]" style={{ color: textColor }}>IDENTIFICATION BADGE</div>
                     <div className="px-[1.5cqw] py-[0.4cqw] text-[1.1cqw] font-black rounded bg-neutral-900 border-[2px] uppercase tracking-widest text-amber-400" style={{ borderColor: templateColor }}>SYS_SEC // AUTH</div>
                   </div>
-                  <div className="text-[1.2cqw] font-mono font-black tracking-widest" style={{ color: textColor }}>HEX_ID // 6F9A24EE</div>
                 </div>
 
                 <div className="w-full grid grid-cols-12 gap-[3cqw] items-stretch my-auto overflow-visible z-10">
@@ -553,12 +553,12 @@ export default function StudentDashboard() {
                     <div className="w-full aspect-square bg-white p-[5%] rounded-xl border-[3px] shadow-2xl flex items-center justify-center" style={{ borderColor: templateColor }}>
                       <QRCode value={accountLink || 'https://bicol-u.edu.ph'} style={{ height: "100%", maxWidth: "100%", width: "100%" }} fgColor="#0d0e12" bgColor="#FFFFFF" />
                     </div>
-                    <div className="w-full flex items-center justify-center gap-[1.5cqw] bg-neutral-900 p-[1.5cqw] rounded-lg border-[2px]" style={{ borderColor: templateColor }}>
-                      <div className="w-[4cqw] h-[4cqw] rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center font-black text-[2.2cqw] text-neutral-900 shadow-md">T</div>
-                      <div className="text-left leading-none">
-                        <div className="text-[1.2cqw] font-black tracking-wider text-amber-400">TECHSYSTEMS</div>
-                        <div className="text-[0.8cqw] font-black tracking-widest text-white mt-1">ASSOCIATION</div>
-                      </div>
+                    <div className="w-full flex items-center justify-start bg-neutral-900 p-[1.5cqw] pl-[2.5cqw] pr-[4cqw] rounded-lg border-[2px]" style={{ borderColor: templateColor }}>
+  <img src="/tsa.svg" alt="TSA Logo" className="w-[4.5cqw] h-[4.5cqw] object-contain shrink-0 mr-[2cqw]" />
+  <div className="text-left leading-none flex-1">
+    <div className="text-[1.4cqw] font-black tracking-wider text-amber-400">TECHSYSTEMS</div>
+    <div className="text-[0.9cqw] font-black tracking-widest text-white mt-0.5">ASSOCIATION</div>
+  </div>
                     </div>
                   </div>
 
@@ -650,8 +650,8 @@ export default function StudentDashboard() {
                     }}
                   />
                   <div>
-                    <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: templateColor }}>COMPUTER STUDIES</div>
-                    <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">DEPARTMENT</div>
+                    <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: templateColor }}>BICOL UNIVERSITY</div>
+                    <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">POLANGUI</div>
                   </div>
                 </div>
               </div>
@@ -827,7 +827,7 @@ export default function StudentDashboard() {
                       </div>
                       
                       <div className="w-full overflow-visible">
-                        <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: textColor }}>Course / Assignment Location</span>
+                        <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: textColor }}>Course / Program</span>
                         <span className="block font-black uppercase tracking-tight whitespace-nowrap overflow-visible leading-none" style={{ color: textColor, fontSize: getDynamicFontSize(course || 'BS COURSE/PROGRAM', 3.2, 16) }}>
                           {course || 'BS COURSE/PROGRAM'}
                         </span>
@@ -879,8 +879,8 @@ export default function StudentDashboard() {
                   <div className="z-10 space-y-4 bg-neutral-950/90 p-[4cqw] rounded-2xl border-[3px]" style={{ borderColor: templateColor }}>
                     <div className="w-[14cqw] h-[14cqw] mx-auto rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-400 flex items-center justify-center font-black text-[7cqw] text-neutral-900 border-[3px] shadow-2xl">T</div>
                     <div>
-                      <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: templateColor }}>COMPUTER STUDIES</div>
-                      <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">DEPARTMENT</div>
+                      <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: templateColor }}>BICOL UNIVERSITY</div>
+                      <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">POLANGUI</div>
                     </div>
                   </div>
                 </div>

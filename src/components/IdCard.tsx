@@ -50,7 +50,7 @@ export const IdCard = React.forwardRef<HTMLDivElement, IdCardProps>(({ data, sid
                 </h3>
               </div>
               <div>
-                <p className="text-[8px] uppercase opacity-60 m-0">Course / Assignment Location</p>
+                <p className="text-[8px] uppercase opacity-60 m-0">Course / Program</p>
                 <p className="text-xs uppercase font-bold truncate m-0 text-white">
                   {data.course || 'BS Information Technology'}
                 </p>
