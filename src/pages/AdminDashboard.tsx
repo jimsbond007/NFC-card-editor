@@ -429,10 +429,10 @@ export default function AdminDashboard() {
 
             <div className="text-center space-y-2">
               <h4 className="text-base font-black text-white tracking-wider uppercase flex items-center justify-center gap-2">
-                <AlertTriangle size={16} className="text-red-500" /> Confirm Data Removal
+                <AlertTriangle size={16} className="text-red-500" /> Delete Card Configuration
               </h4>
               <p className="text-xs text-neutral-400 leading-relaxed max-w-xs mx-auto">
-                You are performing an un-doable action. This will wipe out <span className="text-red-400 font-bold uppercase">{targetDeleteName || 'this student'}</span>'s card configuration layout metrics from the queue database.
+                You are about to delete the card layout details for <span className="text-red-400 font-bold uppercase">{targetDeleteName || 'this student'}</span>. Once removed, this information cannot be recovered.
               </p>
             </div>
 
@@ -443,7 +443,7 @@ export default function AdminDashboard() {
                 onClick={closeDeleteModal}
                 className="w-full py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white text-xs font-bold rounded-lg transition cursor-pointer uppercase tracking-wider disabled:opacity-40"
               >
-                Abort Action
+                Go Back
               </button>
               <button
                 disabled={isDeleting}
@@ -455,7 +455,7 @@ export default function AdminDashboard() {
                     <RefreshCw size={12} className="animate-spin" /> Shredding...
                   </>
                 ) : (
-                  'Purge Record'
+                  'Delete Permanently'
                 )}
               </button>
             </div>
