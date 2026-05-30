@@ -2,9 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link id="favicon" rel="icon" type="image/svg+xml" href="/nfc.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>nfc-card-editor</title>
+    
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        // Updated to a solid, high-visibility glowing electric cyan blue
+        const TARGET_COLOR = '#00F0FF'; 
+
+        fetch('/nfc.svg')
+          .then(response => response.text())
+          .then(svgText => {
+            // Dynamically injects the cyan color into your SVG stroke parameters on runtime
+            const coloredSvg = svgText.replace(/stroke="[^"]+"/, `stroke="${TARGET_COLOR}"`);
+            
+            const blob = new Blob([coloredSvg], { type: 'image/svg+xml' });
+            const blobUrl = URL.createObjectURL(blob);
+            
+            document.getElementById('favicon').setAttribute('href', blobUrl);
+          })
+          .catch(err => console.error('Error modifying favicon color:', err));
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

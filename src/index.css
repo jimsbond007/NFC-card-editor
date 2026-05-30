@@ -1,8 +1,11 @@
+/* css-enforce-valid-rules */
+/* @custom-variant theme; */
+
 @import "tailwindcss";
 
 @theme {
   /* Techsystems Association Custom Colors */
-  --color-tech-orange: #FF6B00; 
+  --color-tech-orange: #FF6B00;
   --color-tech-black: #1A1A1A;
   --color-tech-white: #FFFFFF;
   --color-tech-pink: #FF66B2;
