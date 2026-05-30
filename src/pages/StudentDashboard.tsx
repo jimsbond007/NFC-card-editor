@@ -588,7 +588,7 @@ export default function StudentDashboard() {
             </div>
           </div>
           
-          <p className="text-[11px] text-neutral-400 mt-6 text-center italic">MAKE SURE THAT ALL OF THE INFORMATION YOU PROVIDE IS FACTUAL</p>
+          <p className="text-[11px] text-neutral-400 mt-6 text-center italic">MAKE SURE THAT ALL OF THE INFORMATION YOU PROVIDE ARE TRUE AND CORRECT</p>
         </div>
 
       </div>
