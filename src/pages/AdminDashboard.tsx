@@ -331,7 +331,20 @@ export default function AdminDashboard() {
                     </div>
 
                     <div className="z-10 space-y-4 bg-neutral-950/90 p-[4cqw] rounded-2xl border-[3px]" style={{ borderColor: req.card_template_color || '#38bdf8' }}>
-                      <div className="w-[14cqw] h-[14cqw] mx-auto rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-400 flex items-center justify-center font-black text-[7cqw] text-neutral-900 border-[3px] shadow-2xl">T</div>
+                      <div
+                        className="w-[14cqw] h-[14cqw] mx-auto drop-shadow-[0_0_8px_rgba(0,240,255,0.3)]"
+                        style={{
+                          backgroundColor: req.card_template_color || '#38bdf8',
+                          WebkitMaskImage: 'url(/nfc.svg)',
+                          maskImage: 'url(/nfc.svg)',
+                          WebkitMaskRepeat: 'no-repeat',
+                          maskRepeat: 'no-repeat',
+                          WebkitMaskPosition: 'center',
+                          maskPosition: 'center',
+                          WebkitMaskSize: 'contain',
+                          maskSize: 'contain',
+                        }}
+                      />
                       <div>
                         <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: req.card_template_color || '#38bdf8' }}>COMPUTER STUDIES</div>
                         <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">DEPARTMENT</div>
