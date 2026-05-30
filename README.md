@@ -87,18 +87,18 @@ NEXUS-Card is a high-fidelity, responsive, web-based digital workspace built wit
 ## System Interface Screenshots
 
 ### 1. Student Configuration Workspace
-<img width="1920" height="886" alt="image" src="https://github.com/user-attachments/assets/6e4dfdda-c320-431b-8f05-3b16c84c66fe" />
+<img width="1897" height="893" alt="image" src="https://github.com/user-attachments/assets/af9f23d6-457d-4d0b-beeb-d0e177888e84" />
+<img width="1892" height="475" alt="image" src="https://github.com/user-attachments/assets/85e3e56c-f6df-487a-ab20-20dcdbc8a305" />
 
 **The primary student workspace where users feed profile data, modify hex color values, toggle 3D viewpoints, and send layouts to the admin registry.**
 
 ### 2. Admin Command Center Terminal
-<img width="1920" height="890" alt="image" src="https://github.com/user-attachments/assets/6b5651ea-31ef-486a-8c3a-5eb9de49393e" />
-
+<img width="1891" height="896" alt="image" src="https://github.com/user-attachments/assets/76d45dae-88e6-48e2-9c8f-2e539ebfc7f5" />
 
 **A comprehensive monitoring dashboard mapping incoming requests, formatting structural data boxes, and containing asset export actions.**
 
 ### 3. Image Compiling Canvas
-<img width="1050" height="785" alt="image" src="https://github.com/user-attachments/assets/19a037e2-a474-4152-b028-ec6389ad5da8" />
+<img width="1878" height="802" alt="image" src="https://github.com/user-attachments/assets/2005e70c-dfed-4cfb-af61-a1317d83ba3e" />
 
 **The high-resolution snapshot system rendering dedicated component trees into cleanly outputted files ready for printing.**
 
@@ -111,22 +111,21 @@ NEXUS-Card is a high-fidelity, responsive, web-based digital workspace built wit
 <img width="1902" height="892" alt="image" src="https://github.com/user-attachments/assets/5c02609f-5854-4df0-b658-521ac170f586" />
 
 2. **Populate Student Specifications:** Feed your full legal name, structural course classification, active 11-digit mobile record, and official identification metrics into the configuration panel.
-<img width="1898" height="884" alt="image" src="https://github.com/user-attachments/assets/1bd65888-4d1f-47a8-b37c-add83d75fade" />
-
+<img width="1068" height="3035" alt="localhost_5173_student (1)" src="https://github.com/user-attachments/assets/3b0382e5-dbee-46aa-a6a2-cc1143f5c37d" />
 
 3. **Tune Aesthetic Hex Attributes:** Adjust the layout color wheels to update the background canvas layer, structural line graphics, and primary alphanumeric text nodes instantly.
 <img width="741" height="194" alt="image" src="https://github.com/user-attachments/assets/6c2fc74b-ac81-41b3-ac2b-dd4275df8d88" />
 
 4. **Verify NFC Targets & Flip:** Provide your target web destination routing link to map out the real-time QR code graphic. Click **Flip Card** to test the rear panel aesthetics.
 <img width="756" height="156" alt="image" src="https://github.com/user-attachments/assets/a4a5e29f-fd84-4db8-972b-a477dba8b30b" />
-<img width="1061" height="775" alt="image" src="https://github.com/user-attachments/assets/daff9dd8-72d9-49a7-9bc1-48ea65e2e29a" />
+<img width="1065" height="765" alt="image" src="https://github.com/user-attachments/assets/5bfdb46b-eddc-4235-a807-657727e9601f" />
 
 5. **Commit Layout to Admin Queue:** Click the **Submit Design to Admin** button to securely record your configuration details onto the database layer.
 <img width="729" height="94" alt="image" src="https://github.com/user-attachments/assets/381599b0-3cb8-4ca5-94b7-ef616f308e0a" />
 <img width="735" height="208" alt="image" src="https://github.com/user-attachments/assets/f81b29d6-cae3-433d-8949-68244322a7a4" />
 
 6. **Administrative Operations & Processing:** Authorized administrators can launch the management terminal, track multi-aspect panels, force-sync queue matrices, export independent card views, and securely clear assets.
-<img width="1892" height="892" alt="image" src="https://github.com/user-attachments/assets/545154c0-d382-4a32-b720-85211e7aaa0d" />
+<img width="1890" height="891" alt="image" src="https://github.com/user-attachments/assets/83aaa8e3-bc78-4953-96f1-61ffd7088aa8" />
 
 ---
 
