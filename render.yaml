@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: nfc-card-editor
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run preview
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_SUPABASE_URL
+        scope: run
+      - key: VITE_SUPABASE_ANON_KEY
+        scope: run
