@@ -263,7 +263,6 @@ export default function AdminDashboard() {
                           SYS_SEC // AUTH
                         </div>
                       </div>
-                      <div className="text-[1.2cqw] font-mono font-black tracking-widest" style={{ color: req.card_text_color || '#ffffff' }}>HEX_ID // 6F9A24EE</div>
                     </div>
 
                     <div className="w-full grid grid-cols-12 gap-[3cqw] items-stretch my-auto overflow-visible z-10">
@@ -273,12 +272,12 @@ export default function AdminDashboard() {
                           <QRCode value={String(req.account_link || 'https://bicol-u.edu.ph').trim()} style={{ height: "100%", maxWidth: "100%", width: "100%" }} fgColor="#0d0e12" bgColor="#FFFFFF" />
                         </div>
                         
-                        <div className="w-full flex items-center justify-center gap-[1.5cqw] bg-neutral-900 p-[1.5cqw] rounded-lg border-[2px]" style={{ borderColor: req.card_template_color || '#38bdf8' }}>
-                          <div className="w-[4cqw] h-[4cqw] rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center font-black text-[2.2cqw] text-neutral-900 shadow-md">T</div>
-                          <div className="text-left leading-none">
-                            <div className="text-[1.2cqw] font-black tracking-wider text-amber-400">TECHSYSTEMS</div>
-                            <div className="text-[0.8cqw] font-black tracking-widest text-white mt-1">ASSOCIATION</div>
-                          </div>
+                       <div className="w-full flex items-center justify-start bg-neutral-900 p-[1.5cqw] pl-[2.5cqw] pr-[4cqw] rounded-lg border-[2px]" style={{ borderColor: req.card_template_color || '#38bdf8' }}>
+  <img src="/tsa.svg" alt="TSA Logo" className="w-[4.5cqw] h-[4.5cqw] object-contain shrink-0 mr-[2cqw]" />
+  <div className="text-left leading-none">
+    <div className="text-[1.4cqw] font-black tracking-wider text-amber-400">TECHSYSTEMS</div>
+    <div className="text-[0.9cqw] font-black tracking-widest text-white mt-0.5">ASSOCIATION</div>
+  </div>
                         </div>
                       </div>
 
@@ -291,7 +290,7 @@ export default function AdminDashboard() {
                         </div>
                         
                         <div className="w-full overflow-visible">
-                          <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: req.card_text_color || '#ffffff' }}>Course / Assignment Location</span>
+                          <span className="block text-[1.3cqw] font-black uppercase tracking-[0.25em] mb-1" style={{ color: req.card_text_color || '#ffffff' }}>Course / Program</span>
                           <span className="block font-black uppercase tracking-tight whitespace-nowrap overflow-visible leading-none" style={{ color: req.card_text_color || '#ffffff', fontSize: getDynamicFontSize(req.course || 'BS COURSE/PROGRAM', 3.2, 16) }}>
                             {req.course || 'BS COURSE/PROGRAM'}
                           </span>
@@ -378,8 +377,8 @@ export default function AdminDashboard() {
                         }}
                       />
                       <div>
-                        <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: req.card_template_color || '#38bdf8' }}>COMPUTER STUDIES</div>
-                        <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">DEPARTMENT</div>
+                        <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: req.card_template_color || '#38bdf8' }}>BICOL UNIVERSITY</div>
+                        <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">POLANGUI</div>
                       </div>
                     </div>
                   </div>
