@@ -22,7 +22,6 @@ export const IdCard = React.forwardRef<HTMLDivElement, IdCardProps>(({ data, sid
   const templateColor = data.card_template_color || '#38bdf8';
   const textColor = data.card_text_color || '#ffffff';
 
-  // Lock the element to exactly ID card dimensions (e.g., standard 3.375" x 2.125" ratio)
   return (
     <div
       ref={ref}
@@ -30,9 +29,7 @@ export const IdCard = React.forwardRef<HTMLDivElement, IdCardProps>(({ data, sid
       className="relative w-[500px] h-[315px] rounded-2xl border-2 p-6 overflow-hidden select-none shadow-2xl tracking-wider font-mono shrink-0"
     >
       {side === 'front' ? (
-        /* --- FRONT ASPECT VIEWPORT --- */
         <div className="w-full h-full flex flex-col justify-between relative">
-          {/* Top Header Row */}
           <div className="flex justify-between items-center border-b pb-2" style={{ borderColor: templateColor }}>
             <span className="text-xs uppercase opacity-80 font-bold">Identification Badge</span>
             <span className="text-[9px] px-2 py-0.5 rounded border text-[7px]" style={{ borderColor: templateColor, color: templateColor }}>
@@ -40,14 +37,11 @@ export const IdCard = React.forwardRef<HTMLDivElement, IdCardProps>(({ data, sid
             </span>
           </div>
 
-          {/* Core Body Section */}
           <div className="flex gap-4 items-center my-auto">
-            {/* QR Code Anchor */}
             <div className="p-2 bg-white rounded-xl shadow-md shrink-0 flex items-center justify-center">
               <QRCode value={data.account_link || 'https://google.com'} size={110} />
             </div>
 
-            {/* Student Metadata Fields */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
               <div>
                 <p className="text-[8px] uppercase opacity-60 m-0">Full Name // Owner</p>
@@ -74,30 +68,37 @@ export const IdCard = React.forwardRef<HTMLDivElement, IdCardProps>(({ data, sid
             </div>
           </div>
 
-          {/* Footer Ribbon */}
           <div className="flex justify-between items-center text-[7px] opacity-60 pt-1 border-t" style={{ borderColor: templateColor }}>
             <span>ISSUED BY: TECHSYSTEMS ASSOCIATION</span>
             <span style={{ color: templateColor }}>NODE // ACTIVE</span>
           </div>
         </div>
       ) : (
-        /* --- BACK ASPECT VIEWPORT --- */
         <div className="w-full h-full flex flex-col justify-center items-center relative">
-          {/* Cyberpunk Grid Background Lines */}
           <div className="absolute inset-0 opacity-10 grid grid-cols-8 grid-rows-4 pointer-events-none">
             {Array.from({ length: 32 }).map((_, i) => (
               <div key={i} className="border border-gray-500" />
             ))}
           </div>
           
-          {/* Centered Main Brand Medallion */}
           <div 
             className="relative z-10 border-2 rounded-2xl px-6 py-4 text-center max-w-[85%]"
             style={{ borderColor: templateColor, backgroundColor: bgColor }}
           >
-            <div className="w-10 h-10 rounded-full bg-amber-400 text-black font-black flex items-center justify-center mx-auto text-lg mb-2 shadow-lg">
-              T
-            </div>
+            <div
+              className="w-14 h-14 mx-auto mb-2 drop-shadow-[0_0_8px_rgba(0,240,255,0.3)]"
+              style={{
+                backgroundColor: templateColor,
+                WebkitMaskImage: 'url(/nfc.svg)',
+                maskImage: 'url(/nfc.svg)',
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain',
+              }}
+            />
             <h2 className="text-xl font-black uppercase tracking-widest text-white m-0">
               Computer Studies
             </h2>
