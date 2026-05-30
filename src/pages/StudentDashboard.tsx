@@ -370,11 +370,16 @@ export default function StudentDashboard() {
     <div className="min-h-screen bg-neutral-100 p-6 flex flex-col gap-6 font-sans">
       
       {/* Top Navbar Header */}
-      <div className="max-w-7xl w-full mx-auto bg-white rounded-xl shadow-md p-4 flex justify-between items-center border-l-4 border-orange-600">
-        <h1 className="text-2xl font-bold text-neutral-800 flex items-center gap-2">
-          <User className="text-orange-600" /> Student NFC Workspace
+      <div className="max-w-7xl w-full mx-auto bg-white rounded-xl shadow-md p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0 border-l-4 border-orange-600">
+        <h1 className="text-lg sm:text-2xl font-bold text-neutral-800 flex items-center justify-between w-full sm:w-auto">
+          <div className="flex items-center gap-2">
+            <User className="text-orange-600" size={20} /> Student NFC Workspace
+          </div>
+          <button onClick={handleLogout} className="bg-neutral-900 text-white p-2 rounded-full hover:bg-neutral-800 transition cursor-pointer sm:hidden">
+            <LogOut size={18} />
+          </button>
         </h1>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 w-full sm:w-auto">
           
           {isAdmin && (
             <button
@@ -385,9 +390,9 @@ export default function StudentDashboard() {
             </button>
           )}
 
-          <span className="text-xs font-semibold text-neutral-500 bg-neutral-200 px-3 py-1 rounded-md">{userEmail}</span>
-          <button onClick={handleLogout} className="bg-neutral-900 text-white p-2 rounded-full hover:bg-neutral-800 transition cursor-pointer">
-            <LogOut size={20} />
+          <span className="text-xs font-semibold text-neutral-500 bg-neutral-200 px-2 sm:px-3 py-1 rounded-md truncate max-w-[200px] sm:max-w-none">{userEmail}</span>
+          <button onClick={handleLogout} className="bg-neutral-900 text-white p-2 rounded-full hover:bg-neutral-800 transition cursor-pointer hidden sm:flex">
+            <LogOut size={18} />
           </button>
         </div>
       </div>
@@ -877,7 +882,20 @@ export default function StudentDashboard() {
                   </div>
 
                   <div className="z-10 space-y-4 bg-neutral-950/90 p-[4cqw] rounded-2xl border-[3px]" style={{ borderColor: templateColor }}>
-                    <div className="w-[14cqw] h-[14cqw] mx-auto rounded-full bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-400 flex items-center justify-center font-black text-[7cqw] text-neutral-900 border-[3px] shadow-2xl">T</div>
+                    <div
+                      className="w-[14cqw] h-[14cqw] mx-auto drop-shadow-[0_0_8px_rgba(0,240,255,0.3)]"
+                      style={{
+                        backgroundColor: templateColor,
+                        WebkitMaskImage: 'url(/nfc.svg)',
+                        maskImage: 'url(/nfc.svg)',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskPosition: 'center',
+                        maskPosition: 'center',
+                        WebkitMaskSize: 'contain',
+                        maskSize: 'contain',
+                      }}
+                    />
                     <div>
                       <div className="text-[5.5cqw] font-black tracking-[0.2em] uppercase leading-none" style={{ color: templateColor }}>BICOL UNIVERSITY</div>
                       <div className="text-[2.6cqw] font-black tracking-[0.5em] uppercase text-white mt-3">POLANGUI</div>
