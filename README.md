@@ -129,6 +129,13 @@ NEXUS-Card is a high-fidelity, responsive, web-based digital workspace built wit
 
 ---
 
+## Commands to use
+ **Build Command**
+- npm install --legacy-peer-deps && npm run build
+
+ **Start Command**
+ - npx serve -s dist -l $PORT
+
 ## Tools Used
 - React: For building the component-based user interface.
 - Tailwind CSS: For utility-first styling and responsive design.
